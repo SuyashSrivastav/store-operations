@@ -5,22 +5,18 @@ Python based APIs to list products of a store and bill them.
 
 How to use:
 
-1.Make sure MongoDB is running on local and port 8001 is free.
+1.Make sure MongoDB is running on local and port 8080 is free.
 
-2.Download the project on the system and start with running the "npm i" command in the folder the project is downloaded.
+2.Start by making sure Flask,Flask-JWT,wheel,PyMongo are installed on the system.If these are not installed use command "pip install flask" for flask and similarly for others.
 
-3.Once it has installed all the "npm" modules it is ready to be started.
+3.Download the file "api.py" in Store folder on the system and start with running the "python api.py" command in the folder the file is downloaded to start the server.
 
-4.Run "nodemon server.js" to start the server.
+4.Download the file "Store.postman_collection.json" from POSTMAN COLLECTION folder and import it in the postman application.
 
-5.Open the application "postman" on the system.
+7.In the postman application go to Collections ----> Store .
 
-6.Click on the "Import" button on top and import the file present in the folder: "POSTMAN COLLECTION OF API".
+8.Hit the API's present in the folders : User , Product ,Cart beginning with creation of User,place the request body with this required info in API's. For instance place token generated in the register/login API in headers as "access-token".
 
-7.In the postman application go to Collections ----> Exams .
+9.Register as an ADMIN and add products in the database.
 
-8.Hit the API's , and replace the request body with this required info in API's. For instance replace exam_id and user_id in the request body before hitting the API wherever required.
-
-9.A user can play a particular exam once.
-
-10.The result can be calculated by sending the answer object in the request body before or after the game has finished.
+10.Add the desired products to Cart and bill can be calculated by calling the get-bill API in Cart folder of collection..
