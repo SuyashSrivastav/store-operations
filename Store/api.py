@@ -153,8 +153,8 @@ def login():
         else:
             return Response(response=json.dumps({"message": "user not found"}), status=500, mimetype="application/json")
 
-    except Exception as ex:
-        return Response(response=json.dumps({"message": "user not found", 'error': ex}), status=500, mimetype="application/json")
+    except:
+        return Response(response=json.dumps({"message": "user not found"}), status=500, mimetype="application/json")
 
 
 ##################################################################################################################################################
@@ -180,8 +180,8 @@ def get_user_details(current_user):
         else:
             return Response(response=json.dumps({"message": "user not found"}), status=500, mimetype="application/json")
 
-    except Exception as ex:
-        return Response(response=json.dumps({"message": "user not found", 'error': ex}), status=500, mimetype="application/json")
+    except:
+        return Response(response=json.dumps({"message": "user not found"}), status=500, mimetype="application/json")
 
 
 ######################################>>>>>>>>>>>>>>>>>........PRODUCT ROUTES...................<<<<<<<<<<<<<<<<<<<<<<##########################################################################################################
@@ -223,8 +223,8 @@ def add_product(current_user):
                             {"message": "product created", "product_id": f"{dbResponse.inserted_id}"}),
                         status=200,
                         mimetype="application/json")
-                except Exception as ex:
-                    return Response(status=404, response=json.dumps({"error": ex}))
+                except:
+                    return Response(status=404, response=json.dumps({"message": "product creation failed"}))
         else:
             return Response(status=404, response=json.dumps({"message": "ADMIN NOT FOUND"}))
     except:
@@ -252,8 +252,39 @@ def get_product_list(user):
         else:
             return Response(response=json.dumps({"message": "products not found"}), status=500, mimetype="application/json")
 
-    except Exception as ex:
-        return Response(response=json.dumps({"message": "user not found", 'error': ex}), status=500, mimetype="application/json")
+    except:
+        return Response(response=json.dumps({"message": "user not found"}), status=500, mimetype="application/json")
+
+
+#####################################################################################################################################################
+"""
+>>>All registered Users can search the product names by passing "keyword" in request.
+>>>"token" will be passed in Headers with key as "access-token"
+"""
+
+
+@app.route('/search-products', methods=['POST'])
+@authenticate
+def search_products(user):
+    try:
+        keyword = request.json['keyword']
+
+        data = list(db.products.find(
+            {'product_name': {'$regex': keyword, '$options': 'm'}}))
+
+        for result in data:
+            result['_id'] = str(result['_id'])
+
+        if (len(data) > 0):
+            return Response(
+                response=json.dumps(
+                    {"message": "search success", "results": data}),
+                status=200,
+                mimetype="application/json")
+        else:
+            return Response(response=json.dumps({"message": "not-found"}), status=500, mimetype="application/json")
+    except:
+        return Response(response=json.dumps({"message": "not-found"}), status=500, mimetype="application/json")
 
 
 #####################################################################################################################################################
@@ -263,8 +294,8 @@ def get_product_list(user):
 """
 
 
-@app.route('/mark-unavailable', methods=['POST'])
-@authenticate
+@ app.route('/mark-unavailable', methods=['POST'])
+@ authenticate
 def mark_product_unavailable(user):
     try:
         if user[0]['is_admin']:
@@ -280,8 +311,8 @@ def mark_product_unavailable(user):
         else:
             return Response(response=json.dumps({"message": "ADMIN NOT FOUND"}), status=500, mimetype="application/json")
 
-    except Exception as ex:
-        return Response(response=json.dumps({"message": "update failed", "err": ex}), status=500, mimetype="application/json")
+    except:
+        return Response(response=json.dumps({"message": "update failed"}), status=500, mimetype="application/json")
 
 
 #########################################################################################################################################################
@@ -291,8 +322,8 @@ def mark_product_unavailable(user):
 """
 
 
-@app.route('/delete-product', methods=['POST'])
-@authenticate
+@ app.route('/delete-product', methods=['POST'])
+@ authenticate
 def delete_product(user):
     try:
         if user[0]['is_admin']:
@@ -321,8 +352,8 @@ def delete_product(user):
 """
 
 
-@app.route('/add-to-cart', methods=['POST'])
-@authenticate
+@ app.route('/add-to-cart', methods=['POST'])
+@ authenticate
 def add_to_cart(user):
     try:
         product_id = request.json['product_id']
@@ -394,8 +425,8 @@ def add_to_cart(user):
 """
 
 
-@app.route('/remove-from-cart', methods=['POST'])
-@authenticate
+@ app.route('/remove-from-cart', methods=['POST'])
+@ authenticate
 def remove_from_cart(user):
     try:
         product_id = request.json['product_id']
@@ -424,8 +455,8 @@ def remove_from_cart(user):
 """
 
 
-@app.route('/change-quantity', methods=['POST'])
-@authenticate
+@ app.route('/change-quantity', methods=['POST'])
+@ authenticate
 def change_quantity(user):
     try:
         product_id = (request.json['product_id'])
@@ -456,8 +487,9 @@ def change_quantity(user):
 >>>"token" will be passed in Headers with key as "access-token"
 """
 
-@app.route('/get-bill', methods=['GET'])
-@authenticate
+
+@ app.route('/get-bill', methods=['GET'])
+@ authenticate
 def get_bill(user):
     try:
         order_data = list(db.orders.aggregate([
