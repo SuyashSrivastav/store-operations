@@ -224,6 +224,40 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "http://localhost:8080/search-products",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "access-token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjVmNDI3ODc5Y2NjZGJiMGE5M2MwN2U1NyIsImV4cCI6MTU5ODIyNjQxNn0.ahA-6EIJ38_mSqpin8xkNBUqAqIzjFblYF6AG1zAwqg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"keyword\":\"AC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/search-products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"search-products"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
