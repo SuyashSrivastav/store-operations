@@ -289,7 +289,7 @@ def search_products(user):
 
 #####################################################################################################################################################
 """
->>>All registered Users can see the product list.
+>>>ADMIN can mark a product unavailible by sending "product_id" in request.
 >>>"token" will be passed in Headers with key as "access-token"
 """
 
